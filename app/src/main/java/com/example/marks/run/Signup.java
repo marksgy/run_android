@@ -69,7 +69,7 @@ public class Signup extends Activity {
                 .build();
         //发起请求
         final Request request = new Request.Builder()
-                .url("http://106.14.165.161/signup/")
+                .url("http://106.14.165.161:8080/signup/")
                 .post(formBody)
                 .build();
         //新建一个线程，用于得到服务器响应的参数
