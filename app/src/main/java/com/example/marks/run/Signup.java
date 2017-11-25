@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +31,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Signup extends Activity {
+public class Signup extends Activity implements CompoundButton.OnCheckedChangeListener{
 
     TextView day,time;
     EditText name,psd,studentId;
     MyHandler myHandler;
+    CheckBox checkBox;
+    Button button;
     final OkHttpClient client = new OkHttpClient();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,9 @@ public class Signup extends Activity {
         name=findViewById(R.id.name2);
         psd=findViewById(R.id.psd2);
         studentId=findViewById(R.id.studentId);
+        checkBox=findViewById(R.id.checkBox);
+        button=findViewById(R.id.buttonsign);
+        checkBox.setOnCheckedChangeListener(this);
         myHandler=new MyHandler(this);
 
 
@@ -57,7 +65,16 @@ public class Signup extends Activity {
         String mName=name.getText().toString().trim();
         String mPsd=psd.getText().toString().trim();
         String mStudentId=studentId.getText().toString().trim();
-        postRequest(mName,mPsd,mStudentId);
+        if(name.length()==0){
+            Toast.makeText(this, "请输入用户名",Toast.LENGTH_SHORT).show();
+        } else if (psd.length() == 0) {
+            Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+        }else if (studentId.length()==0){
+            Toast.makeText(this, "请输入学号", Toast.LENGTH_SHORT).show();
+        } else {
+            postRequest(mName,mPsd,mStudentId);
+        }
+
     }
 
     private void postRequest(String name,String pwd,String studentId)  {
@@ -108,6 +125,14 @@ public class Signup extends Activity {
 
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if (b){
+            button.setEnabled(true);
+        }else {
+            button.setEnabled(false);
+        }
+    }
 
 
     static class MyHandler extends Handler{

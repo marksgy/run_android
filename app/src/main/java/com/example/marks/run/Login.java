@@ -64,7 +64,14 @@ public class Login extends Activity implements View.OnClickListener{
     public void login(View view){
         String mName=name.getText().toString().trim();
         String mPsd=psd.getText().toString().trim();
-        postRequest(mName,mPsd);
+        if(name.length()==0){
+            Toast.makeText(this, "请输入用户名",Toast.LENGTH_SHORT).show();
+        } else if (psd.length() == 0) {
+            Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+        } else {
+            postRequest(mName,mPsd);
+        }
+
 
     }
 
